@@ -96,7 +96,7 @@ src/
 
 ## 📊 Test Reports
 - TestNG Surefire Reports: `target/surefire-reports`
-- Extent HTML Reports: `target/extent-reports/index.html`
+- Extent HTML Reports: `reports/extent-report.html`
 
 ## 📋 Browser Support
 - Chrome (local/remote)
@@ -109,4 +109,4 @@ src/
 |-------------|------------------------------|-----------------------|
 | browser     | Browser used for test runs   | chrome, firefox       |
 | isRemote    | Enable remote WebDriver      | true, false           |
-| url         | Target application base URL  | https://example.com   |
+| url         | Target application base URL  | https://the-internet.herokuapp.com   |
