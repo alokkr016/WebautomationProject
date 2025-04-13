@@ -9,6 +9,7 @@
 
     <test name="Login Functionality Tests">
         <parameter name="url" value="https://the-internet.herokuapp.com/login"/>
+        <parameter name="isRemote" value="true"/>
         <classes>
             <class name="tests.LoginTests" />
         </classes>
@@ -16,6 +17,7 @@
 
     <test name="Javascript Alert Tests">
         <parameter name="url" value="https://the-internet.herokuapp.com/javascript_alerts"/>
+        <parameter name="isRemote" value="false"/>
         <classes>
             <class name="tests.JavaScriptAlertsTest" />
         </classes>

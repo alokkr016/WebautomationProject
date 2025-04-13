@@ -1,18 +1,21 @@
 package tests.base;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
-import utils.ConfigReader;
+
 import utils.DriverFactory;
 
 public class BaseTest {
-    protected WebDriver driver;
-    private static boolean isDriverInitialized = false;
-
     @BeforeMethod
-    @Parameters({"browser", "isRemote","url"})
-    public void setUp(@Optional("chrome") String browser, @Optional("false") boolean isRemote,String url) throws InterruptedException {
-            DriverFactory.initializeDriver(browser, isRemote,url);
+    @Parameters({"browser", "isRemote", "url"})
+    public void setUp(@Optional("chrome") String browser,
+                      @Optional("false") String isRemote,String url) {
+
+        // Use system properties if present, otherwise fallback to parameter
+        String finalBrowser = System.getProperty("browser", browser);
+        boolean finalIsRemote = Boolean.parseBoolean(System.getProperty("isRemote", isRemote));
+        String finalUrl = System.getProperty("url", url);
+
+        DriverFactory.initializeDriver(finalBrowser, finalIsRemote, finalUrl);
     }
 
     @AfterMethod(alwaysRun = true)

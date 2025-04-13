@@ -23,18 +23,20 @@ public class DriverFactory {
         driver.set(driverInstance);
     }
 
-    public static void initializeDriver(String browser, boolean isRemote,String url) {
+    public static void initializeDriver(String browser, boolean isRemote, String url) {
         WebDriver webDriver = null;
-
+        String username = AwsParameterStore.getParameter("LT_USERNAME");
+        String accesskey = AwsParameterStore.getParameter("LT_PASSWORD");
+// test.java
+        String Hub_URL = "https://" + username + ":" + accesskey + "@hub.lambdatest.com/wd/hub";
         try {
             if (isRemote) {
-                String remoteUrl = ConfigReader.get("remoteUrl");
                 if (Objects.equals(browser.toLowerCase(), "chrome")) {
                     ChromeOptions options = new ChromeOptions();
-                    webDriver = new RemoteWebDriver(new URL(remoteUrl), options);
+                    webDriver = new RemoteWebDriver(new URL(Hub_URL), options);
                 } else if (Objects.equals(browser.toLowerCase(), "firefox")) {
                     FirefoxOptions options = new FirefoxOptions();
-                    webDriver = new RemoteWebDriver(new URL(remoteUrl), options);
+                    webDriver = new RemoteWebDriver(new URL(Hub_URL), options);
                 } else {
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
                 }
