@@ -35,7 +35,8 @@ jobs:
           mvn test -DskipTests=false \
             -Dbrowser=${{ github.event.inputs.BROWSER }} \
             -DAWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} \
-            -DAWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} 
+            -DAWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
+            -DisRemote=true
           
             
             
