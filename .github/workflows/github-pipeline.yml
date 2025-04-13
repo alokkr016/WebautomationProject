@@ -1,0 +1,50 @@
+name: 🧪 Run Selenium Tests (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      BROWSER:
+        description: 'Browser to use (chrome/firefox)'
+        required: true
+        default: 'chrome'
+      IS_REMOTE:
+        description: 'Run on remote driver (true/false)'
+        required: true
+        default: 'true'
+      URL:
+        description: 'Target test URL'
+        required: true
+        default: '[https://the-internet.herokuapp.com/login'](https://the-internet.herokuapp.com/login')
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Run Tests
+        env:
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        run: |
+          mvn test -DskipTests=false \
+            -Dbrowser=${{ github.event.inputs.BROWSER }} \
+            -DisRemote=${{ github.event.inputs.IS_REMOTE }} \
+            -Durl=${{ github.event.inputs.URL }}
