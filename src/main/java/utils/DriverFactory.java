@@ -1,6 +1,5 @@
 package utils;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,11 +14,16 @@ import java.util.Objects;
 public class DriverFactory {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
     public static WebDriver getDriver() {
         return driver.get();
     }
 
-    public static void initializeDriver(String browser, boolean isRemote) {
+    public static void setDriver(WebDriver driverInstance) {
+        driver.set(driverInstance);
+    }
+
+    public static void initializeDriver(String browser, boolean isRemote,String url) {
         WebDriver webDriver = null;
 
         try {
@@ -31,31 +35,39 @@ public class DriverFactory {
                 } else if (Objects.equals(browser.toLowerCase(), "firefox")) {
                     FirefoxOptions options = new FirefoxOptions();
                     webDriver = new RemoteWebDriver(new URL(remoteUrl), options);
+                } else {
+                    throw new IllegalArgumentException("Unsupported browser: " + browser);
                 }
             } else {
                 switch (browser.toLowerCase()) {
                     case "chrome":
-                        webDriver = new ChromeDriver();
-                        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+                        ChromeOptions chromeOptions = new ChromeOptions();
+                        webDriver = new ChromeDriver(chromeOptions);
                         break;
                     case "firefox":
-                        webDriver = new FirefoxDriver();
+                        FirefoxOptions firefoxOptions = new FirefoxOptions();
+                        webDriver = new FirefoxDriver(firefoxOptions);
                         break;
                     default:
                         throw new IllegalArgumentException("Unsupported browser: " + browser);
                 }
             }
+
+            webDriver.get(url);
+            webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            webDriver.manage().window().maximize();
+            setDriver(webDriver);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to initialize the WebDriver: " + e.getMessage());
         }
-
-        driver.set(webDriver);
     }
 
     public static void quitDriver() {
-        if (driver.get() != null) {
-            driver.get().quit();
+        WebDriver webDriver = getDriver();
+        if (webDriver != null) {
+            webDriver.quit();
             driver.remove();
         }
     }

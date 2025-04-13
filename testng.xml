@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="LambdaTest Suite" parallel="tests" thread-count="2">
+<suite name="LambdaTest Suite" parallel="methods" thread-count="2">
 
     <listeners>
         <!-- Attach your custom listener here if using -->
@@ -8,8 +8,16 @@
     </listeners>
 
     <test name="Login Functionality Tests">
+        <parameter name="url" value="https://the-internet.herokuapp.com/login"/>
         <classes>
             <class name="tests.LoginTests" />
+        </classes>
+    </test>
+
+    <test name="Javascript Alert Tests">
+        <parameter name="url" value="https://the-internet.herokuapp.com/javascript_alerts"/>
+        <classes>
+            <class name="tests.JavaScriptAlertsTest" />
         </classes>
     </test>
 

@@ -7,9 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import utils.LoggerUtils;
 import utils.WaitUtils;
 
-public class LoginPage {
-    private WebDriver driver;
-    private WaitUtils waitUtils;
+public class LoginPage extends BasePage{
 
     // Define WebElements using @FindBy annotation
     @FindBy(id = "username")
@@ -25,10 +23,8 @@ public class LoginPage {
     private WebElement message;
 
     // Constructor to initialize WebElements
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        this.waitUtils = new WaitUtils(driver);
-        PageFactory.initElements(driver, this);
+    public LoginPage() {
+        super();
     }
 
     // Method to perform login action

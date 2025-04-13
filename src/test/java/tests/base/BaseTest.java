@@ -7,17 +7,15 @@ import utils.DriverFactory;
 
 public class BaseTest {
     protected WebDriver driver;
+    private static boolean isDriverInitialized = false;
 
     @BeforeMethod
-    @Parameters({"browser", "isRemote"})
-    public void setUp(@Optional("chrome") String browser, @Optional("false") boolean isRemote) throws InterruptedException {
-        DriverFactory.initializeDriver(browser, isRemote);
-        driver = DriverFactory.getDriver();
-        driver.get(ConfigReader.get("baseUrl"));
-        Thread.sleep(5000);
+    @Parameters({"browser", "isRemote","url"})
+    public void setUp(@Optional("chrome") String browser, @Optional("false") boolean isRemote,String url) throws InterruptedException {
+            DriverFactory.initializeDriver(browser, isRemote,url);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         DriverFactory.quitDriver();
     }
