@@ -14,12 +14,14 @@ public class ExtentTestNGListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        extent = ExtentManager.createInstance();
+        if (extent == null) {
+            extent = ExtentManager.createInstance();
+        }
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-        String className = result.getTestClass().getName();
+        String className = result.getTestClass().getName().replace("tests.", "");
         String methodName = result.getMethod().getMethodName();
         ExtentTest test = extent.createTest(className + " :: " + methodName);
         ExtentTestManager.setTest(test);
@@ -51,7 +53,6 @@ public class ExtentTestNGListener implements ITestListener {
 
     @Override
     public void onFinish(ITestContext context) {
-        ExtentTestManager.removeTest();
         extent.flush();
     }
 }
