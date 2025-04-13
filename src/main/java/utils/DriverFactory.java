@@ -33,6 +33,9 @@ public class DriverFactory {
             if (isRemote) {
                 if (Objects.equals(browser.toLowerCase(), "chrome")) {
                     ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.addArguments("--user-data-dir=/tmp/chrome-profile-" + Thread.currentThread().getId());
                     webDriver = new RemoteWebDriver(new URL(Hub_URL), options);
                 } else if (Objects.equals(browser.toLowerCase(), "firefox")) {
                     FirefoxOptions options = new FirefoxOptions();
