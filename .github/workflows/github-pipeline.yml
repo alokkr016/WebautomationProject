@@ -7,10 +7,6 @@ on:
         description: 'Browser to use (chrome/firefox)'
         required: true
         default: 'chrome'
-      IS_REMOTE:
-        description: 'Run on remote driver (true/false)'
-        required: true
-        default: 'true'
 jobs:
   selenium-tests:
     runs-on: ubuntu-latest
@@ -41,5 +37,8 @@ jobs:
         run: |
           mvn test -DskipTests=false \
             -Dbrowser=${{ github.event.inputs.BROWSER }} \
-            -DisRemote=${{ github.event.inputs.IS_REMOTE }} \
-            -Durl=${{ github.event.inputs.URL }}
+            -DAWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} \
+            -DAWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} 
+          
+            
+            
