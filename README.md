@@ -6,7 +6,7 @@ A scalable and maintainable web automation testing framework built with Selenium
 ## 🔧 Prerequisites
 - Java 17 or higher
 - Maven
-- LambdaTest or Selenium Grid setup (for remote execution)
+- LambdaTest (for remote execution)
 
 ## 🏃 Running the Tests
 
