@@ -37,6 +37,11 @@ jobs:
             -DAWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} \
             -DAWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
             -DisRemote=true
-          
+      - name: Upload Extent Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report
+          path: reports/extent-report.html
             
             
